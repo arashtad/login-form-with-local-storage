@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+    </head>
+    <body>
+
+        <div id="login">
+            <h2>Login Form:</h2>
+                <form name="login">
+                    Username : <input id="username" type="text" value=""><br><br>
+                    Password : <input id="password" type="text" ><br><br>
+                <input type="submit" onclick="loginfunc()" value="Submit">   
+            </form>
+        </div>
+
+        <div id="logged-in">
+            <h2>Welcome To Arashtad Tutorials!</h2>
+            <p1>You are logged in!</p1><br><br>
+            <button onclick="remove_data()">remove user data</button>
+        </div>
+
+        <script>
+            function hasKey(key){
+                const item = window.localStorage.getItem(key)
+                if(!item){
+                    return false
+                }else{
+                    return true
+                }
+            }
+
+            function remove_data(){
+                window.localStorage.removeItem('Arashtad')
+                document.querySelector('body').removeChild(document.getElementById('logged-in'))
+                location.reload()
+            }
+
+            function loginfunc(){
+                let Is_logged_in = true
+                const username = document.getElementById('username').value
+                person = {
+                        username : username,
+                        Is_logged_in 
+                    }
+                setItemInLS('Arashtad',JSON.stringify(person))
+            }
+
+            function setItemInLS(key, value) {
+                localStorage.setItem(key, value);
+            }
+
+            function getItemInLS(key) {
+                if (hasKey(key)) {
+                  let item = localStorage.getItem(key);
+                  return JSON.parse(item);
+                }
+                return false;
+            }
+
+            document.addEventListener('DOMContentLoaded',(event) => { 
+                let login_status = false
+                if (!hasKey('Arashtad')){
+                    login_status = false
+                }else{
+                    item = getItemInLS('Arashtad')
+                    login_status = item.Is_logged_in
+
+                }
+                if (login_status){
+                    document.getElementById('login').remove()                   
+                }else{
+                    document.getElementById('logged-in').remove() 
+                }
+            })
+            
+        </script>
+    </body>
+</html>
+
+
